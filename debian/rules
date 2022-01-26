@@ -1,0 +1,13 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@
+
+
+override_dh_auto_configure:
+	dh_auto_configure -- -DCMAKE_INSTALL_INCLUDEDIR=include/libquotient -DBUILD_SHARED_LIBS=1
+
+override_dh_auto_install:
+	dh_auto_install
+# unused example file -- remove to avoid warning from dh_missing
+	rm debian/tmp/usr/bin/quotest

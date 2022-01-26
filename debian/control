@@ -1,0 +1,25 @@
+Source: libquotient
+Priority: optional
+Maintainer: Matrix Packaging Team <pkg-matrix-maintainers@lists.alioth.debian.org>
+Uploaders: Hubert Chathi <uhoreg@debian.org>, Andres Salomon <dilinger@debian.org>
+Build-Depends: debhelper-compat (= 12), cmake, qtbase5-dev, qtmultimedia5-dev
+Standards-Version: 4.3.0
+Section: libs
+Homepage: https://github.com/quotient-im/libQuotient
+Vcs-Git: https://salsa.debian.org/matrix-team/libquotient.git
+Vcs-Browser: https://salsa.debian.org/matrix-team/libquotient
+
+Package: libquotient-dev
+Section: libdevel
+Architecture: any
+Depends: libquotient0.6 (= ${binary:Version}), ${misc:Depends}
+Description: Qt5 library to write cross-platform clients for Matrix
+ libQuotient is a Qt5-based library to make IM clients for the Matrix
+ protocol. It is the backbone of Quaternion, Spectral and some other projects.
+
+Package: libquotient0.6
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Qt5 library to write cross-platform clients for Matrix
+ libQuotient is a Qt5-based library to make IM clients for the Matrix
+ protocol. It is the backbone of Quaternion, Spectral and some other projects.

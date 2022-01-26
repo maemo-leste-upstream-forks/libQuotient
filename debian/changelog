@@ -1,0 +1,48 @@
+libquotient (0.6.6-1) unstable; urgency=high
+
+  * New upstream release. This fixes a remotely-triggered crash (see
+    https://github.com/quotient-im/libQuotient/issues/456).
+
+ -- Andres Salomon <dilinger@debian.org>  Sat, 27 Mar 2021 23:51:17 -0400
+
+libquotient (0.6.4-2) unstable; urgency=medium
+
+  * Remove libqmatrixclient-dev dummy package; Hubert pointed out that
+    we may want both dev packages installable, and they don't actually
+    conflict.
+
+ -- Andres Salomon <dilinger@debian.org>  Tue, 19 Jan 2021 17:21:30 -0500
+
+libquotient (0.6.4-1) unstable; urgency=medium
+
+  * New upstream release (closes: #980067).
+  * Add myself as an uploader.
+  * Upstream renamed the library from libqmatrixclient to libQuotient;
+    rename the packages accordingly, with a dummy -dev package.
+
+ -- Andres Salomon <dilinger@debian.org>  Mon, 18 Jan 2021 04:16:19 -0500
+
+libqmatrixclient (0.5.3.2-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Set packaging team as maintainer.
+
+ -- Hubert Chathi <uhoreg@debian.org>  Fri, 17 Apr 2020 16:32:17 -0400
+
+libqmatrixclient (0.5.2-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Hubert Chathi <uhoreg@debian.org>  Tue, 25 Jun 2019 16:35:11 -0400
+
+libqmatrixclient (0.4.2.1-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Hubert Chathi <uhoreg@debian.org>  Mon, 14 Jan 2019 11:21:36 -0500
+
+libqmatrixclient (0.4.1-1) unstable; urgency=medium
+
+  * Initial release of splitting the library out from quaternion.
+
+ -- Hubert Chathi <uhoreg@debian.org>  Mon, 24 Dec 2018 15:11:03 -0500

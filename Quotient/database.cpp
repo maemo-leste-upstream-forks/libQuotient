@@ -12,6 +12,7 @@
 #include "e2ee/qolmsession.h"
 #include "e2ee/cryptoutils.h"
 
+#include <QObject>
 #include <QtCore/QDir>
 #include <QtCore/QStandardPaths>
 #include <QtSql/QSqlDatabase>
@@ -35,6 +36,8 @@ Database::Database(const QString& userId, const QString& deviceId,
                                 % u'/' % dbDir };
     QDir(databasePath).mkpath("."_ls);
     db.setDatabaseName(databasePath + "/quotient_%1.db3"_ls.arg(m_deviceId));
+    qDebug() << db.databaseName();
+
     db.open(); // Further accessed via database()
 
     switch(version()) {

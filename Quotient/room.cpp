@@ -506,7 +506,8 @@ Room::Room(Connection* connection, QString id, JoinState initialJoinState)
     d->displayname = d->calculateDisplayname(); // Set initial "Empty room" name
 #ifdef Quotient_E2EE_ENABLED
     if (connection->encryptionEnabled()) {
-        connectSingleShot(this, &Room::encryption, this, [this, connection] {
+        connect(this, &Room::encryption, this, [this, connection] {
+            QObject::disconnect(this, &Room::encryption, 0, 0);
             connection->encryptionUpdate(this);
         });
         connect(this, &Room::memberListChanged, this, [this, connection] {
@@ -2769,6 +2770,8 @@ void Room::Private::decryptIncomingEvents(RoomEvents& events)
 #ifdef Quotient_E2EE_ENABLED
     if (!connection->encryptionEnabled())
         return;
+
+
     if (!q->usesEncryption())
         return; // If the room doesn't use encryption now, it never did
 
@@ -3016,6 +3019,7 @@ Room::Changes Room::Private::addNewMessageEvents(RoomEvents&& events)
     if (events.empty())
         return Change::None;
 
+    qDebug() << "events: " << events.size() << ", now try decryptIncomingEvents";
     decryptIncomingEvents(events);
 
     QElapsedTimer et;
@@ -3392,12 +3396,14 @@ Room::Change Room::Private::processStateEvent(const RoomEvent& curEvent,
             if (auto* successor = connection->room(successorId))
                 emit q->upgraded(evt.serverMessage(), successor);
             else
-                connectUntil(connection, &Connection::loadedRoomState, q,
+                connect(connection, &Connection::loadedRoomState, q,
                     [this,successorId,serverMsg=evt.serverMessage()]
                     (Room* newRoom) {
                         if (newRoom->id() != successorId)
                             return false;
                         emit q->upgraded(serverMsg, newRoom);
+
+                        QObject:disconnect(connection, &Connection::loadedRoomState, 0, 0);
                         return true;
                     });
 

@@ -33,4 +33,7 @@ LoginJob::LoginJob(const QString& type, const Omittable<UserIdentifier>& identif
     addExpectedKey("user_id");
     addExpectedKey("access_token");
     addExpectedKey("device_id");
+
+    // auto obj = QJsonDocument(_dataJson).toJson(QJsonDocument::Indented);
+    // qDebug() << obj;
 }

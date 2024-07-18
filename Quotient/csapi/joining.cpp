@@ -34,4 +34,5 @@ JoinRoomJob::JoinRoomJob(const QString& roomIdOrAlias, const QStringList& server
     addParam<IfNotEmpty>(_dataJson, QStringLiteral("reason"), reason);
     setRequestData({ _dataJson });
     addExpectedKey("room_id");
+    qDebug() << "creating JoinRoomJob for" << roomIdOrAlias;
 }

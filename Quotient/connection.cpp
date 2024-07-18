@@ -170,7 +170,16 @@ void Connection::loginWithPassword(const QString& userId,
                                    const QString& deviceId)
 {
     d->checkAndConnect(userId, [=,this] {
-        d->loginToServer(LoginFlows::Password.type, makeUserIdentifier(userId),
+
+        // @user:test.server.io -> user
+        QString _userId = userId;
+        if(userId.startsWith(QStringLiteral("@")) && userId.contains(QStringLiteral(":"))) {
+            _userId = _userId.remove(0, 1);
+            _userId = _userId.split(QStringLiteral(":")).at(0);
+        }
+
+        qDebug() << "loginToServer userId" << _userId;
+        d->loginToServer(LoginFlows::Password.type, makeUserIdentifier(_userId),
                          password, /*token*/ QString(), deviceId, initialDeviceName);
     }, LoginFlows::Password);
 }
@@ -371,8 +380,9 @@ void Connection::Private::checkAndConnect(const QString& userId,
         q->setObjectName(userId % u"(?)");
         q->resolveServer(userId);
         if (flow)
-            connectSingleShot(q, &Connection::loginFlowsChanged, q,
+            QObject::connect(q, &Connection::loginFlowsChanged,
                 [this, flow, connectFn] {
+                    QObject::disconnect(q, &Connection::loginFlowsChanged, 0, 0);
                     if (loginFlows.contains(*flow))
                         connectFn();
                     else
@@ -384,7 +394,10 @@ void Connection::Private::checkAndConnect(const QString& userId,
                                      flow->type));
                 });
         else
-            connectSingleShot(q, &Connection::homeserverChanged, q, connectFn);
+            QObject::connect(q, &Connection::homeserverChanged, [this, connectFn](QUrl baseUrl) {
+                QObject::disconnect(q, &Connection::homeserverChanged, 0, 0);
+                connectFn();
+            });
     } else
         emit q->resolveError(tr("Please provide the fully-qualified user id"
                                 " (such as @user:example.org) so that the"
@@ -675,6 +688,9 @@ QString Connection::nextBatchToken() const { return d->data->lastEvent(); }
 JoinRoomJob* Connection::joinRoom(const QString& roomAlias,
                                   const QStringList& serverNames)
 {
+    qDebug() << "JoinRoomJob* Connection::joinRoom" << roomAlias;
+    qDebug() << "serverNamess" << serverNames;
+
     auto* const job = callApi<JoinRoomJob>(roomAlias, serverNames);
     // Upon completion, ensure a room object is created in case it hasn't come
     // with a sync yet. If the room object is not there, provideRoom() will
@@ -1284,8 +1300,10 @@ void Connection::addToDirectChats(const Room* room, const QString& userId)
 {
     Q_ASSERT(room != nullptr && !userId.isEmpty());
     const auto u = user(userId);
-    if (d->directChats.contains(u, room->id()))
+    if (d->directChats.contains(u, room->id())) {
         return;
+    }
+
     Q_ASSERT(!d->directChatUsers.contains(room->id(), u));
     d->directChats.insert(u, room->id());
     d->directChatMemberIds.insert(room->id(), userId);
@@ -1439,6 +1457,7 @@ const ConnectionData* Connection::connectionData() const
 
 Room* Connection::provideRoom(const QString& id, Omittable<JoinState> joinState)
 {
+    qDebug() << "provideRoom for ID" << id << "joinState invite:" << (joinState == JoinState::Invite);
     // TODO: This whole function is a strong case for a RoomManager class.
     Q_ASSERT_X(!id.isEmpty(), __FUNCTION__, "Empty room id");
 
@@ -1483,6 +1502,7 @@ Room* Connection::provideRoom(const QString& id, Omittable<JoinState> joinState)
 
     if (*joinState == JoinState::Invite) {
         // prev is either Leave or nullptr
+        qDebug() << "was invited";
         auto* prev = d->roomMap.value({ id, false }, nullptr);
         emit invitedRoom(room, prev);
     } else {
@@ -1495,9 +1515,10 @@ Room* Connection::provideRoom(const QString& id, Omittable<JoinState> joinState)
             emit leftRoom(room, prevInvite);
         if (prevInvite) {
             const auto dcUsers = prevInvite->directChatUsers();
-            for (auto* u : dcUsers)
+            for (auto* u : dcUsers) {
                 addToDirectChats(room, u);
-            qCDebug(MAIN) << "Deleting Invite state for room"
+            }
+            qDebug() << "Deleting Invite state for room"
                           << prevInvite->id();
             emit prevInvite->beforeDestruction(prevInvite);
             prevInvite->deleteLater();
@@ -1877,7 +1898,7 @@ void Connection::requestKeyFromDevices(event_type_t name,
         content[userId()][deviceId] = eventContent;
     }
     sendToDevices("m.secret.request"_ls, content);
-    connectUntil(this, &Connection::secretReceived, this,
+    connect(this, &Connection::secretReceived, this,
                  [this, requestId, then, name](const QString& receivedRequestId,
                                                const QString& secret) {
                      if (requestId != receivedRequestId) {
@@ -1886,6 +1907,8 @@ void Connection::requestKeyFromDevices(event_type_t name,
                      const auto& key = QByteArray::fromBase64(secret.toLatin1());
                      database()->storeEncrypted(name, key);
                      then(key);
+
+                     QObject::disconnect(this, &Connection::secretReceived, 0, 0);
                      return true;
                  });
 }

@@ -1,8 +1,15 @@
+libquotient (0.8.3) unstable; urgency=medium
+
+  * fix CI build
+
+ -- Sander <code@kroket.io>  Sun, 6 Aug 2024 18:18:53 +0200
+
 libquotient (0.8.2-2) unstable; urgency=medium
 
   * CMake: fix install include dir
   * Login: convert `@user:test.io` to `test` for the userId during login
   * C++: replace `connectSingleShot` and `connectUntil` - both cause issues with maemo leste's gcc 10, which does not support all C++20 features yet
+  * Enable E2EE (via libolm)
   * Extra debug output
 
  -- Sander <code@kroket.io>  Sun, 5 Aug 2024 18:18:53 +0200

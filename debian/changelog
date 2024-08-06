@@ -1,3 +1,7 @@
+libquotient (0.8.2.4) unstable; urgency=medium
+
+  * Fix build deps attempt #3
+
 libquotient (0.8.2.3) unstable; urgency=medium
 
   * Fix build deps attempt #2

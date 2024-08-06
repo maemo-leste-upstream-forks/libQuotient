@@ -2,7 +2,7 @@ Source: libquotient
 Priority: optional
 Maintainer: Matrix Packaging Team <pkg-matrix-maintainers@lists.alioth.debian.org>
 Uploaders: Hubert Chathi <uhoreg@debian.org>, Andres Salomon <dilinger@debian.org>
-Build-Depends: debhelper-compat (= 12), cmake, qtbase5-dev, qtmultimedia5-dev, qt5keychain-dev, libolm
+Build-Depends: debhelper-compat (= 12), cmake, qtbase5-dev, qtmultimedia5-dev, qt5keychain-dev, libolm, libssl-dev
 Standards-Version: 4.3.0
 Section: libs
 Homepage: https://github.com/quotient-im/libQuotient
@@ -14,7 +14,8 @@ Section: libdevel
 Architecture: any
 Depends: libquotient0.8 (= ${binary:Version}), ${misc:Depends},
     libqt5keychain1,
-    libolm
+    libolm,
+    libssl1.1
 Description: Qt5 library to write cross-platform clients for Matrix
  libQuotient is a Qt5-based library to make IM clients for the Matrix
  protocol. It is the backbone of Quaternion, Spectral and some other projects.

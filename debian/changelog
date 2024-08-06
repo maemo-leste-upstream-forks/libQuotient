@@ -1,3 +1,9 @@
+libquotient (0.8.2.2) unstable; urgency=medium
+
+  * Add buildd deps
+
+ -- Sander <code@kroket.io>  Sun, 5 Aug 2024 18:18:53 +0200
+
 libquotient (0.8.2.1) unstable; urgency=medium
 
   * CMake: fix install include dir

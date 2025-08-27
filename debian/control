@@ -2,7 +2,7 @@ Source: libquotient
 Priority: optional
 Maintainer: Matrix Packaging Team <pkg-matrix-maintainers@lists.alioth.debian.org>
 Uploaders: Hubert Chathi <uhoreg@debian.org>, Andres Salomon <dilinger@debian.org>
-Build-Depends: debhelper-compat (= 12), cmake, qtbase5-dev, qtmultimedia5-dev, qt5keychain-dev, libolm, libssl-dev
+Build-Depends: debhelper-compat (= 12), cmake, qtbase5-dev, qtmultimedia5-dev, qt5keychain-dev, libolm3, libssl-dev
 Standards-Version: 4.3.0
 Section: libs
 Homepage: https://github.com/quotient-im/libQuotient

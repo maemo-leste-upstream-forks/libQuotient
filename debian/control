@@ -14,7 +14,7 @@ Section: libdevel
 Architecture: any
 Depends: libquotient0.8 (= ${binary:Version}), ${misc:Depends},
     libqt5keychain1,
-    libolm,
+    libolm3,
     libssl1.1
 Description: Qt5 library to write cross-platform clients for Matrix
  libQuotient is a Qt5-based library to make IM clients for the Matrix

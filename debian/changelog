@@ -1,3 +1,7 @@
+libquotient (0.8.4.1) unstable; urgency=medium
+
+  * on debian bookworm, there is `qt5keychain-dev` *and* `qtkeychain-qt5-dev` (for the CMake config) - we need both
+
 libquotient (0.8.4) unstable; urgency=medium
 
   * on debian bookworm, libquotient 0.8.2 is in the repos. However, libquotient supports both compiling with Qt5 and 6, and Debian compiles it with 6. We cannot use 6, as telepathy-qt is still on Qt5. We must bump the version to a non existent version upstream (0.8.4) so our repository has precedence.

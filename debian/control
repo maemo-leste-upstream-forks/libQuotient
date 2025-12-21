@@ -14,6 +14,7 @@ Section: libdevel
 Architecture: any
 Depends: libquotient0.8 (= ${binary:Version}), ${misc:Depends},
     libqt5keychain1,
+    qtkeychain-qt5-dev,
     libolm3,
     libolm-dev,
     libssl-dev

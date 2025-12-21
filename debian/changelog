@@ -1,3 +1,9 @@
+libquotient (0.8.4.2) unstable; urgency=medium
+
+  * on debian bookworm, there is qt5keychain-dev *and* qtkeychain-qt5-dev (for the CMake config) - we need both
+
+ -- Sander <code@kroket.io>  Sun, 21 Dec 2025 08:18:53 +0200
+
 libquotient (0.8.4.1) unstable; urgency=medium
 
   * on debian bookworm, there is `qt5keychain-dev` *and* `qtkeychain-qt5-dev` (for the CMake config) - we need both

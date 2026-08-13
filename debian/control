@@ -1,0 +1,47 @@
+Source: libquotient
+Priority: optional
+Maintainer: Sander <code@kroket.io>
+Build-Depends: debhelper-compat (= 13),
+               cmake (>= 3.26),
+               pkgconf,
+               qt6-base-dev (>= 6.4),
+               qt6-base-private-dev (>= 6.4),
+               qtkeychain-qt6-dev,
+               libolm-dev (>= 3.2.5),
+               libssl-dev (>= 1.1.0),
+               libqt6sql6-sqlite
+Standards-Version: 4.7.2
+Section: libs
+Homepage: https://github.com/quotient-im/libQuotient
+Rules-Requires-Root: no
+
+Package: libquotient-dev
+Section: libdevel
+Architecture: any
+Depends: libquotientqt6-0.9 (= ${binary:Version}),
+         qt6-base-dev (>= 6.4),
+         qtkeychain-qt6-dev,
+         libolm-dev (>= 3.2.5),
+         libssl-dev (>= 1.1.0),
+         ${misc:Depends}
+Description: Qt6 library to write cross-platform clients for Matrix (development)
+ libQuotient is a Qt6-based library to make IM clients for the Matrix
+ protocol. It is the backbone of Quaternion, NeoChat and some other projects.
+ .
+ End-to-end encryption is enabled in this build, so the library is built
+ against libolm and OpenSSL libcrypto.
+ .
+ This package contains the header files, the pkg-config file, the CMake
+ package files and the shared library symlink needed to build applications
+ against libQuotient.
+
+Package: libquotientqt6-0.9
+Architecture: any
+Depends: libqt6sql6-sqlite, ${shlibs:Depends}, ${misc:Depends}
+Description: Qt6 library to write cross-platform clients for Matrix
+ libQuotient is a Qt6-based library to make IM clients for the Matrix
+ protocol. It is the backbone of Quaternion, NeoChat and some other projects.
+ .
+ End-to-end encryption is enabled in this build, so the library is built
+ against libolm and OpenSSL libcrypto. The Qt SQLite driver is pulled in for
+ the encryption key database.
